@@ -9,11 +9,17 @@ export const Cart = () => {
     const totalAmount = getTotalCartAmount();
 
     const navigate = useNavigate()
+
+    const hasCartItems = PRODUCTS.some((product) => cartItems[product.id] > 0);
+
     return (
         <div className="cart">
-            <div>
-                <h1> Yourt Cart Items</h1>
-            </div>
+           {/* Display header only if there are items in the cart */}
+            {hasCartItems && (
+                <div>
+                    <h1>Your Cart Items</h1>
+                </div>
+            )}
             <div className="cartItems">
                 {PRODUCTS.map((product) => {
                     if (cartItems[product.id] !==0) {
