@@ -14,9 +14,9 @@ function App() {
         <Router>
           <Navbar />
           <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/shop" element={<Shop />} />
+            <Route path="/" element={<Shop />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </Router>
       </ShopContextProvider>
