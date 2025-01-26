@@ -5,33 +5,57 @@ import "./login.css";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); // error message
+  const [error, setError] = useState("");
+  const [isRegistering, setIsRegistering] = useState(false); // Toggle between login and register
+  const [users, setUsers] = useState([]); // List of registered users
   const { login } = useAuth(); // use useAuth to get login
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // fetch username and passwrod
-    if (username === "admin1" && password === "123") {
-      login(username); // set user login state
+    const user = users.find((user) => user.username === username && user.password === password);
+
+    if (user) {
+      login(username); // Log in the user
     } else {
       setError("Incorrect username or password. Please try again.");
-      setUsername(""); // clear
-      setPassword(""); // clear
     }
+
+    setUsername("");
+    setPassword("");
+  };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+
+    if (!username || !password) {
+      setError("Username and password are required to register.");
+      return;
+    }
+
+    if (users.find((user) => user.username === username)) {
+      setError("Username already exists. Please choose a different one.");
+    } else {
+      setUsers([...users, { username, password }]);
+      setError("");
+      setIsRegistering(false); // Switch back to login after registration
+    }
+
+    setUsername("");
+    setPassword("");
   };
 
   return (
     <div className="login-container">
-      <h2>Login Page</h2>
-      <form onSubmit={handleLogin}>
+      <h2>{isRegistering ? "Register Page" : "Login Page"}</h2>
+      <form onSubmit={isRegistering ? handleRegister : handleLogin}>
         <div>
-          <label>UserName:</label>
+          <label>Username:</label>
           <input
             type="text"
             placeholder="Enter your username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)} // update username
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div>
@@ -40,17 +64,29 @@ const Login = () => {
             type="password"
             placeholder="Enter your password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)} // update password
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <label className="credentials">UserName: admin1</label>
-        <label className="credentials">Password: 123</label>
-        {error && <p className="error-message">{error}</p>}{" "}
-        {/* show error message */}
-        <button type="submit">Login</button>
+        {error && <p className="error-message">{error}</p>}
+        <button type="submit">{isRegistering ? "Register" : "Login"}</button>
       </form>
+      <p>
+        {isRegistering ? "Already have an account?" : "Don't have an account?"}{" "}
+        <button
+          onClick={() => {
+            setIsRegistering(!isRegistering);
+            setError("");
+            setUsername("");
+            setPassword("");
+          }}
+          className="toggle-button"
+        >
+          {isRegistering ? "Login here" : "Register here"}
+        </button>
+      </p>
     </div>
   );
 };
 
 export default Login;
+

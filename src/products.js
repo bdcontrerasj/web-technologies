@@ -11,6 +11,12 @@ export const PRODUCTS = [
         productName: "Jacket",
         price: 89.0,
         productImage: product1,
+        reviews:[{
+            id:1,
+            comment: "First comment",
+            username:"admin1",
+            image: product1
+        }]
     },
 
     {
