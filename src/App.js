@@ -1,28 +1,40 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/navbar'; // Asegúrate de que la ruta sea correcta
-import  {Shop} from './pages/shop/shop';
-import  {Cart} from './pages/cart/cart';
-import { ShopContextProvider } from './context/shop-context';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Navbar from "./components/navbar"; // Asegúrate de que la ruta sea correcta
+import Login from "./pages/login/login";
+import { Shop } from "./pages/shop/shop";
+import { Cart } from "./pages/cart/cart";
+import { ShopContextProvider } from "./context/shop-context";
+import { AuthProvider, useAuth } from "./context/auth-context";
 // Componentes de ejemplo para las rutas
 
+const ProtectedRoute = ({ element }) => {
+  const { user } = useAuth();
+  return user ? element : <Navigate to="/login" />; // if do not login, jump to login page
+};
 
 function App() {
   return (
     <div className="App">
-      <ShopContextProvider>
       <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Shop />} />
-          <Route path="/cart" element={<Cart />} />
-        </Routes>
+        <AuthProvider>
+          <ShopContextProvider>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Shop />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
+          </ShopContextProvider>
+        </AuthProvider>
       </Router>
-      </ShopContextProvider>
     </div>
   );
 }
 
 export default App;
-
-
