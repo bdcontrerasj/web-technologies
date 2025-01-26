@@ -11,6 +11,8 @@ import { Shop } from "./pages/shop/shop";
 import { Cart } from "./pages/cart/cart";
 import { ShopContextProvider } from "./context/shop-context";
 import { AuthProvider, useAuth } from "./context/auth-context";
+import {ProductDetails} from "./pages/productDetails/productDetails.jsx"
+import { PRODUCTS } from "./products";
 // Componentes de ejemplo para las rutas
 
 const ProtectedRoute = ({ element }) => {
@@ -29,6 +31,7 @@ function App() {
               <Route path="/" element={<Shop />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/productDetails/:productId" element={<ProductDetails products={PRODUCTS} />} />
             </Routes>
           </ShopContextProvider>
         </AuthProvider>
