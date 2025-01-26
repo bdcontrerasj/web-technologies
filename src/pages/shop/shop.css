@@ -23,6 +23,7 @@
 }
 .product img {
     width: 400px;
+    border-radius: 12px;
 }
 .product .description{
     text-align: center;
@@ -36,7 +37,8 @@
 
 .addToCartBttn {
     background-color: transparent;
-    border: 2px solid rgbrgb(36, 159, 197);
+    border: 2px solid rgb(36, 159, 197);
+    color:rgb(36, 159, 197);
     min-width: 100px;
     padding-left: 10px;
     padding-right: 10px;
